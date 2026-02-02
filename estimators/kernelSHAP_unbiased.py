@@ -2,6 +2,7 @@ from .estimatorTemplate import estimatorTemplate
 from .kernelSHAP import kernelSHAP
 import numpy as np
 
+# Eq. (9) in https://arxiv.org/pdf/2012.01536
 
 # it is equal to kernelSHAP_MV using scalar_vr = 'zero' and sampling = 'kernel'
 # it is merely used to verify that they are equal

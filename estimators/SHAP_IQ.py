@@ -2,7 +2,7 @@ from .kernelSHAP_MV import kernelSHAP_MV
 from .estimatorTemplate import estimatorTemplate
 import numpy as np
 
-
+# https://arxiv.org/pdf/2303.01179
 
 # inherite kernelSHAP._batch_generator
 class SHAP_IQ(kernelSHAP_MV):

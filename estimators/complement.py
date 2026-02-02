@@ -1,7 +1,7 @@
 from .estimatorTemplate import estimatorTemplate
 import numpy as np
 
-
+# Algorithm 2 in https://par.nsf.gov/servlets/purl/10448773
 
 class complement(estimatorTemplate):
     def __init__(self, util, semivalue,

@@ -1,7 +1,7 @@
 from .estimatorTemplate import estimatorTemplate
 import numpy as np
 
-
+# Algorithm 2 in https://openreview.net/forum?id=lvSMIsztka
 
 
 class GELS(estimatorTemplate):

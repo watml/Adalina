@@ -2,6 +2,8 @@ from .kernelSHAP_LS import kernelSHAP_LS
 from .estimatorTemplate import estimatorTemplate
 import numpy as np
 
+# https://cs.uwaterloo.ca/~y328yu/publication/li-yu-24-b/li-yu-24-b.pdf
+# we chose to approximate phi_{i,1}^{+} and phi_{i,1}^{-}
 
 # inherite _batch_generator and process_batch
 class OFA(kernelSHAP_LS):

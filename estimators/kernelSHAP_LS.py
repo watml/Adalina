@@ -1,6 +1,7 @@
 from .kernelSHAP_MV import kernelSHAP_MV
 import numpy as np
 
+# Sketched Regression in https://arxiv.org/pdf/2506.05216
 
 class kernelSHAP_LS(kernelSHAP_MV):
     def __init__(self, util, semivalue,

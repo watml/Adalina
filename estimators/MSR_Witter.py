@@ -2,6 +2,8 @@ from .estimatorTemplate import estimatorTemplate
 import numpy as np
 from scipy.special import comb
 
+# Eq. (3) in https://arxiv.org/pdf/2506.11849
+
 # inherit check and calculate_estimate
 class MSR_Witter(estimatorTemplate):
     def __init__(self, util, semivalue,

@@ -1,6 +1,7 @@
 from .estimatorTemplate import estimatorTemplate
 import numpy as np
 
+# the improved AME in Appendix D of https://cs.uwaterloo.ca/~y328yu/publication/li-yu-24-b/li-yu-24-b.pdf
 
 # inherite check and calculate_estimate
 class linearAME(estimatorTemplate):

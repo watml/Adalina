@@ -1,6 +1,8 @@
 from .estimatorTemplate import estimatorTemplate
 import numpy as np
 
+# Approximate Matrix-Vector Multiplication in https://arxiv.org/pdf/2506.05216
+
 
 class kernelSHAP_MV(estimatorTemplate):
     def __init__(self, util, semivalue,

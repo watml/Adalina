@@ -1,6 +1,7 @@
 from .estimatorTemplate import estimatorTemplate
 import numpy as np
 
+# Eq. (4) in https://openreview.net/pdf?id=u359tNBpxF
 
 class MSR_Wang(estimatorTemplate):
     def __init__(self, util, semivalue,

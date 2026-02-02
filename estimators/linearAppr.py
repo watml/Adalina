@@ -3,6 +3,8 @@ from .estimatorTemplate import estimatorTemplate
 import numpy as np
 import numbers
 
+# non-adaptive implementation of our Adalina
+
 # inherit _batch_generator
 class linearAppr(kernelSHAP_MV):
     def __init__(self, util, semivalue,

@@ -2,6 +2,7 @@ from .GELS import GELS
 from .estimatorTemplate import estimatorTemplate
 import numpy as np
 
+# Algorithm 3 in https://openreview.net/forum?id=lvSMIsztka
 
 # inherit process_batch
 class GELS_Shapley(GELS):

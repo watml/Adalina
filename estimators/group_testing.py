@@ -2,6 +2,7 @@ from .GELS import GELS
 from .estimatorTemplate import estimatorTemplate
 import numpy as np
 
+# Algorithm 2 in https://arxiv.org/pdf/2302.11431
 
 class group_testing(GELS):
     def __init__(self, util, semivalue,

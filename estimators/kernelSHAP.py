@@ -1,6 +1,8 @@
 from .estimatorTemplate import estimatorTemplate
 import numpy as np
 
+# Eq. (7) in https://arxiv.org/pdf/2012.01536
+
 # it is equal to kernelSHAP_LS using scalar_vr = 'diff' and sampling = 'kernel'
 # it is merely used to verify that they are equal
 class kernelSHAP(estimatorTemplate):
