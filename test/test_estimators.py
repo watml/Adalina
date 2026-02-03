@@ -6,6 +6,7 @@ sys.path.insert(0, str(ROOT))
 from estimators import estimators
 import numpy as np
 from sklearn.datasets import make_regression
+from createTreeModel import createTreeModel
 from sklearn.ensemble import GradientBoostingRegressor
 from utilFuncs import treeUtility
 
@@ -29,14 +30,18 @@ print(kwargs)
 
 
 
-random_seed = 2026
-np.random.seed(random_seed)
+# =============================================================================
+# random_seed = 2026
+# np.random.seed(random_seed)
+# x, y = make_regression(1000, n_features=n_players)
+# y = np.abs(y)
+# model = GradientBoostingRegressor(random_state=random_seed, n_estimators=5, max_depth=5).fit(x, y)
+# util = treeUtility(model, x[0])
+# =============================================================================
 
-x, y = make_regression(1000, n_features=n_players)
-y = np.abs(y)
-model = GradientBoostingRegressor(random_state=random_seed, n_estimators=5, max_depth=5).fit(x, y)
-
-util = treeUtility(model, x[0])
+# 44, 1475, 43174
+model, X_test, y_test = createTreeModel(43174, 2, 2026)
+util = treeUtility(model, X_test[0])
 
 
 est = estimators(n_queries_per_player, n_queries_per_iteration, 

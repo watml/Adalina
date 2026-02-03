@@ -28,9 +28,13 @@ class treeUtility(utilTemplate):
                 if shape[1] == 1:
                     result[i] = self._evaluate(stage[0].tree_, subset, 0)
                 else:
-                    assert self.class_index is not None
                     result[i] = self._evaluate(stage[self.class_index].tree_, subset, 0)
-            outcome = self.learning_rate * result.sum()
+            
+            if self.init_logit.size > 1:                       
+                outcome = self.learning_rate * result.sum() + self.init_logit[self.class_index]
+            else:
+                outcome = self.learning_rate * result.sum() + self.init_logit[0]
+                
             if shape[1] == 1 and self.class_index == 0:
                 outcome = -outcome
         else:
@@ -76,7 +80,6 @@ class treeUtility(utilTemplate):
                 if shape[1] == 1:
                     result[i] = self._treeprob(stage[0].tree_, semivalue, 0)
                 else:
-                    assert self.class_index is not None
                     result[i] = self._treeprob(stage[self.class_index].tree_, semivalue, 0)
                     
             outcome = self.learning_rate * result.sum(axis=0)

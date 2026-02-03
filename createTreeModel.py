@@ -9,8 +9,7 @@ import os
 _data_home = 'data'
 _model_home = 'treeModels'
 # sorted descending order of their average query costs. 
-_dataset_ids = [4538, 44, 43174, 1475, 41150, 41145]
-_dataset_ids += [41168, 44975, 4549]
+_dataset_ids = [4538, 44, 43174, 1475, 41150, 41145, 41168, 44975, 4549]
 _id2depth = {
     41168 : 40,
     41150 : 20,
@@ -20,7 +19,7 @@ _id2depth = {
     4538 : 10,
     43174 : 10,
     44975 : 30,
-    4549 : 25} #50
+    4549 : 10}
 _classification_ids = [41168, 41150, 41145, 44, 1475, 4538]
 _datasets_using_scaler = [44975, 4549]
 
