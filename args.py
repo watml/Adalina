@@ -15,13 +15,11 @@ path_structure = [
 
 
 def process_arg_dict(arg_dict):
-    dataset_ids = arg_dict['dataset_id']
-    
     arg_dict_flatten = flatten_arg_dict(arg_dict)
     arg_comb = dict2comb(arg_dict_flatten)
     arg_comb = filter_arg(arg_comb)
     add_path(arg_comb)
-    arg_comb = sort(arg_comb, dataset_ids)
+    arg_comb = sort(arg_comb, arg_dict['dataset_id'])
     
     return arg_comb
 
