@@ -110,7 +110,7 @@ class estimatorTemplate:
     
     @staticmethod
     def can_be_paired(semivalue):
-        # return True if paired sampling tend to significantly improve the convergence curve
+        # return True if paired sampling can benefit the estimator
         return False
 
             
