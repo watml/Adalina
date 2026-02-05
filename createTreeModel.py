@@ -24,6 +24,9 @@ _classification_ids = [41168, 41150, 41145, 44, 1475, 4538]
 _datasets_using_scaler = [44975, 4549]
 
 
+if 'test' in os.getcwd().split(os.sep):
+    _data_home = os.path.join('..', _data_home)
+    _model_home = os.path.join('..', _model_home)
 
 
 def createTreeModel(dataset_id, n_estimators, random_seed):
