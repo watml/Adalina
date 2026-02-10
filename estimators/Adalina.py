@@ -6,8 +6,7 @@ import numpy as np
 class Adalina(linearAppr):
     def __init__(self, util, semivalue,
                  n_queries_per_player, n_queries_per_player_per_checkpoint, 
-                 n_queries_per_iteration,
-                 unbiased=False):
+                 n_queries_per_iteration):
         estimatorTemplate.__init__(self, util, semivalue)
         self.n_samples = n_queries_per_player * util.n_players
         
@@ -27,9 +26,7 @@ class Adalina(linearAppr):
         self.grand_util, self.empty_util = self.compute_extreme_util()
     
         self.raw_result_length = 2 * util.n_players + 2
-        
-        # it does not provide noticeable difference.
-        self.unbiased = unbiased
+
         
     
     def can_be_paired(semivalue):
@@ -50,9 +47,6 @@ class Adalina(linearAppr):
     
     def calculate_estimate(self):
         count = self.summed_result[-1]
-        if self.unbiased:
-            quo = self.summed_result[self.util.n_players:-1] / (count - 1)
-        else:
-            quo = self.summed_result[self.util.n_players:-1] / count
+        quo = self.summed_result[:-1] / count
         shift = (self.grand_util - quo[-1]) * self.weights[-1] - (self.empty_util - quo[-1]) * self.weights[0]
-        return quo[:-1] - self.summed_result[:self.util.n_players] / count * quo[-1] + shift
+        return quo[self.util.n_players:-1] - quo[:self.util.n_players] * quo[-1] + shift

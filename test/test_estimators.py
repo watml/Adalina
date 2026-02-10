@@ -12,7 +12,7 @@ from sklearn.ensemble import GradientBoostingRegressor
 from utilFuncs import treeUtility
 
 n_processes = 1
-estimator = 'Adalina_All'
+estimator = 'Adalina'
 semivalue = (1,1)
 paired_sampling = 0
 n_players = 10
@@ -21,7 +21,6 @@ n_queries_per_iteration = 100
 n_queries_per_player_per_checkpoint = 50
 kwargs = dict()
 #kwargs.update(scalar_vr='zero', sampling='kernel')
-#kwargs.update(unbiased=0)
 #kwargs.update(aux='default')
 
 print(estimator)
@@ -31,24 +30,23 @@ print(kwargs)
 
 
 
-# =============================================================================
-# random_seed = 2026
-# np.random.seed(random_seed)
-# x, y = make_regression(1000, n_features=n_players)
-# y = np.abs(y)
-# model = GradientBoostingRegressor(random_state=random_seed, n_estimators=5, max_depth=5).fit(x, y)
-# util = treeUtility(model, x[0])
-# =============================================================================
+random_seed = 2026
+np.random.seed(random_seed)
+x, y = make_regression(1000, n_features=n_players)
+model = GradientBoostingRegressor(random_state=random_seed, n_estimators=5, max_depth=5).fit(x, y)
+util = treeUtility(model, x[0])
 
-# 44, 1475, 43174
-model, X_test, y_test = createTreeModel(43174, 2, 2026)
-util = treeUtility(model, X_test[0])
+# =============================================================================
+# # 44, 1475, 43174
+# model, X_test, y_test = createTreeModel(43174, 2, 2026)
+# util = treeUtility(model, X_test[0])
+# =============================================================================
 
 
 est = estimators(n_queries_per_player, n_queries_per_iteration, 
                  n_queries_per_player_per_checkpoint, n_processes)
 
-ground_truth = util.treeprob(semivalue)
+ground_truth = util.treestab(semivalue)
 
 print(ground_truth)
 

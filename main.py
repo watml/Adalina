@@ -17,16 +17,13 @@ arg_dict = dict(
     paired_sampling=[0, 1],
     estimator=dict(
         estimator=['MSR_Wang', 'MSR_Witter', 'ARM', 'linearAME', 'GELS', 
-                   'GELS_Shapley', 'SHAP_IQ', 'OFA', 'complement', 'Adalina_All'],
+                   'GELS_Shapley', 'SHAP_IQ', 'Adalina_All', 'Adalina'],
         linearAppr=dict(
             aux=['default', 'empty']
             ),
         kernelSHAP_MV=dict(
             scalar_vr=['diff'],
             sampling=['kernel', 'leverage', 'geomean'],
-            ),
-        Adalina=dict(
-            unbiased=[0],
             ),
         ),       
     )
