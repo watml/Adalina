@@ -60,7 +60,6 @@ class kernelSHAP_MV(estimatorTemplate):
     
     @staticmethod
     def can_be_paired(semivalue):
-        # it produces worst performance.
         # note that this has been inheritted.
         if semivalue == (1, 1):
             return True

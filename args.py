@@ -79,8 +79,13 @@ def filter_arg(arg_comb):
         if not can_estimator_run_semivalue(arg['estimator'], arg['semivalue']):
             continue
         
-        if arg['paired_sampling'] and not can_estimator_be_paired(arg['estimator'], arg['semivalue']):
-            continue
+        if arg['paired_sampling']:
+            if not can_estimator_be_paired(arg['estimator'], arg['semivalue']):
+                continue
+            if arg['dataset_id'] not in [44, 1475, 41145, 41150]:
+                continue
+            if arg['estimator'] != 'kernelSHAP_MV':
+                continue
         
         arg_comb_filtered.append(arg)
     return arg_comb_filtered

@@ -14,7 +14,7 @@ arg_dict = dict(
     semivalue=np.arange(.1, 1, .1).round(1).tolist() + \
         [(16, 1), (4, 1), (1, 1), (1, 4), (1, 16), (16, 4), (2, 2), (8, 8), (4, 16)],
     random_seed_estimator=range(10),
-    paired_sampling=[0],
+    paired_sampling=[0, 1],
     estimator=dict(
         estimator=['MSR_Wang', 'MSR_Witter', 'ARM', 'linearAME', 'GELS', 
                    'GELS_Shapley', 'SHAP_IQ', 'OFA', 'complement', 'Adalina_All'],
