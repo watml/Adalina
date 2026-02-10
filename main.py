@@ -84,7 +84,7 @@ if __name__ == '__main__':
             print(arg['path_groundtruth'])
             path_components = arg['path_groundtruth'].split(os.sep)
             os.makedirs(os.sep.join(path_components[:-1]), exist_ok=True)
-            groundtruth = util.treeprob(arg['semivalue'])
+            groundtruth = util.treestab(arg['semivalue'])
             np.savez_compressed(arg['path_groundtruth'], groundtruth=groundtruth)
             
         if not os.path.exists(arg['path_estimate']):
