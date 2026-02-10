@@ -118,8 +118,8 @@ class treeUtility(utilTemplate):
         tmp_alpha = np.arange(1, alpha, dtype=np.float64)
         tmp_beta = np.arange(1, beta, dtype=np.float64)
         tmp = np.arange(1, alpha+beta, dtype=np.float64)[::-1]
-        scalars = ((tmp[:beta-1] * tmp[-1] / tmp_beta)[:,None] * points[None,:]).prod(axis=0)
-        scalars *= ((tmp[beta-1:-1] / tmp_alpha)[:,None] * (1-points)[None,:]).prod(axis=0)
+        init = ((tmp[:beta-1] * tmp[-1] / tmp_beta)[:,None] * points[None,:]).prod(axis=0)
+        init *= ((tmp[beta-1:-1] / tmp_alpha)[:,None] * (1-points)[None,:]).prod(axis=0)
         
         children_left = tree.children_left
         children_right = tree.children_right
@@ -136,7 +136,7 @@ class treeUtility(utilTemplate):
         
         def traverse(node, n_samples_parent, feature_parent, activation, s=None):
             if s is None:
-                s = scalars.copy()
+                s = init.copy()
             
             n_samples_current = n_node_samples[node]
             gamma = n_samples_parent / n_samples_current * activation
