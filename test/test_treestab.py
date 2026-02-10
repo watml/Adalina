@@ -10,9 +10,9 @@ from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
 from utilFuncs import treeUtility
 
-def test_treeprob(util):
+def test_treestab(util):
     for semivalue in [0.2, 0.5, 0.8, (1,4), (1,1), (4,1)]:
-        t1 = util.treeprob(semivalue)
+        t1 = util.treestab(semivalue)
         t2 = util.groundtruth_bruteforce(semivalue)
         print(np.linalg.norm(t1-t2))
 
@@ -23,11 +23,11 @@ if __name__ == '__main__':
     x, y = make_regression(1000, n_features=n_features)
     model = GradientBoostingRegressor(n_estimators=5, max_depth=5).fit(x, y)
     util = treeUtility(model, x[0])
-    test_treeprob(util)
+    test_treestab(util)
     
     model = DecisionTreeRegressor(max_depth=5).fit(x, y)
     util = treeUtility(model, x[0])
-    test_treeprob(util)
+    test_treestab(util)
     
     
     # test binary classification
@@ -39,12 +39,12 @@ if __name__ == '__main__':
     )
     model = GradientBoostingClassifier(n_estimators=5, max_depth=5).fit(x, y)
     util = treeUtility(model, x[0], 0)
-    test_treeprob(util)
+    test_treestab(util)
     
     
     model = DecisionTreeClassifier(max_depth=5).fit(x, y)
     util = treeUtility(model, x[0], 1)
-    test_treeprob(util)
+    test_treestab(util)
     
     
     
@@ -58,9 +58,9 @@ if __name__ == '__main__':
     )
     model = GradientBoostingClassifier(n_estimators=5, max_depth=5).fit(x, y)
     util = treeUtility(model, x[0], 3)
-    test_treeprob(util)
+    test_treestab(util)
     
     
     model = DecisionTreeClassifier(max_depth=5).fit(x, y)
     util = treeUtility(model, x[0], 2)
-    test_treeprob(util)
+    test_treestab(util)
