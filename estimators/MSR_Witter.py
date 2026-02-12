@@ -34,8 +34,6 @@ class MSR_Witter(estimatorTemplate):
         self.sampling_weights /= tmp
         self.pool = np.arange(util.n_players+1)
         
-        print(self.sampling_prob)
-        
     
     def _batch_generator(self, n):
         batch = np.zeros((n, self.util.n_players), dtype=bool)
