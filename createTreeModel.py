@@ -19,7 +19,7 @@ _id2depth = {
     4538 : 10,
     43174 : 10,
     44975 : 30,
-    4549 : 10}
+    4549 : 20}
 _classification_ids = [41168, 41150, 41145, 44, 1475, 4538]
 _datasets_using_scaler = [44975, 4549]
 
@@ -86,27 +86,14 @@ def data_from_openml(dataset_id, random_seed, test_size=0.2):
     return X_train, X_test, y_train, y_test
 
 
-if __name__ == '__main__':
-    from utilFuncs import treeUtility
-    import time
-    import numpy as np
-    
-    total = 0.
+if __name__ == '__main__':      
     for dataset_id in _dataset_ids:
         print(dataset_id)
-        model, X_test, y_test = createTreeModel(dataset_id, 5, 2026)
-        
+        model, X_test, y_test = createTreeModel(dataset_id, 10, 2026)    
         print(model.score(X_test, y_test))
-            
-        if dataset_id in _classification_ids:
-            util = treeUtility(model, X_test[0], 0)
-        else:
-            util = treeUtility(model, X_test[0])
-        tic = time.time()
-        for _ in range(100):
-            util.evaluate(np.random.choice([True, False], size=util.n_players))
-        cost = (time.time() - tic) / 100 * X_test.shape[-1]
-        total += cost
-        print(cost)
         
-    print(total)
+        
+    for dataset_id in [44, 1475, 41145, 41150]:
+        print(dataset_id)
+        model, X_test, y_test = createTreeModel(dataset_id, 0, 2026)    
+        print(model.score(X_test, y_test))
