@@ -1,10 +1,8 @@
 from .estimatorTemplate import estimatorTemplate
 import numpy as np
-from scipy.special import comb
 
 # Eq. (3) in https://arxiv.org/pdf/2506.11849
 
-# inherit check and calculate_estimate
 class MSR_Witter(estimatorTemplate):
     def __init__(self, util, semivalue,
                  n_queries_per_player, n_queries_per_player_per_checkpoint, 
@@ -20,18 +18,15 @@ class MSR_Witter(estimatorTemplate):
         self.raw_result_length = util.n_players + 1
 
         # compute something required
-        self.subset_weights = np.zeros(util.n_players + 1, dtype=np.float64)
-        self.subset_weights[:-1] = util.compute_weights(semivalue)
-        weights_squared = self.subset_weights[:-1] ** 2
-        sampling_prob = np.zeros(util.n_players+1, dtype=np.float64)
-        tmp = np.arange(1, util.n_players+1, dtype=np.float64) / util.n_players
-        sampling_prob[:-1] += weights_squared * tmp[::-1]
-        sampling_prob[1:] += weights_squared * tmp
-        self.sampling_weights = np.sqrt(sampling_prob)
-        self.sampling_prob = self.sampling_weights * comb(util.n_players, np.arange(util.n_players+1))
-        tmp = self.sampling_prob.sum()
-        self.sampling_prob /= tmp
-        self.sampling_weights /= tmp
+        self.weights = util.compute_cardinality_weights(semivalue)
+        weights_squared = self.weights ** 2
+        self.sampling_prob = np.zeros(util.n_players+1, dtype=np.float64)
+        tmp = np.arange(1, util.n_players+1, dtype=np.float64)
+        self.sampling_prob[:-1] += weights_squared / tmp[::-1]
+        self.sampling_prob[1:] += weights_squared / tmp
+        self.sampling_prob **= 0.5
+        self.sampling_prob /= self.sampling_prob.sum()
+        
         self.pool = np.arange(util.n_players+1)
         
     
@@ -49,8 +44,11 @@ class MSR_Witter(estimatorTemplate):
         size = sample.sum()
         out[-1] = 1
         out = out[:-1]
-        out[sample] = self.subset_weights[size-1] * r / self.sampling_weights[size]
-        out[~sample] = -self.subset_weights[size] * r / self.sampling_weights[size]
+        scalar = r * self.util.n_players / self.sampling_prob[size]
+        if size:
+            out[sample] = self.weights[size-1] / size * scalar
+        if self.util.n_players - size:
+            out[~sample] = -self.weights[size] / (self.util.n_players - size) * scalar
         
         
     def calculate_estimate(self):
