@@ -92,7 +92,7 @@ class utilTemplate:
     
     
     def compute_weights(self, semivalue, n_players=None):
-        # use it only for small n_players, when n_players > 500, it has some numerial issue.
+        # use it only for small n_players, when n_players > 500, it has some numerical issue.
         # compute the weights for { U(SUi)-U(i) }
         n_players = n_players or self.n_players # make it compatible with treeprob
         
