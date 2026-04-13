@@ -28,7 +28,7 @@ class Adalina(linearAppr):
         self.raw_result_length = 2 * util.n_players + 2
 
         
-    
+    @staticmethod
     def can_be_paired(semivalue):
         return False
         

@@ -1,4 +1,14 @@
-from createTreeModel import _dataset_ids, _classification_ids
+import os
+# If there are n cpus, without the following specification, each process would
+# create n threads. So, given n_processes = n, there would be nxn threads in total,
+# which could hurt performance. Make sure n_processes x n_threads <= n_cpus.
+# it should be done before importing any other modules.
+NUM_THREAD = 1
+os.environ["OMP_NUM_THREADS"] = f"{NUM_THREAD}"
+os.environ["OPENBLAS_NUM_THREADS"] = f"{NUM_THREAD}"
+os.environ["MKL_NUM_THREADS"] = f"{NUM_THREAD}"
+os.environ["VECLIB_MAXIMUM_THREADS"] = f"{NUM_THREAD}"
+os.environ["NUMEXPR_NUM_THREADS"] = f"{NUM_THREAD}"
 import numpy as np
 
 arg_dict = dict(
@@ -10,7 +20,7 @@ arg_dict = dict(
     random_seed_anythingelse=2026,
     n_estimators=10,
     # varied
-    dataset_id=_dataset_ids,
+    dataset_id=[4538, 44, 43174, 1475, 41150, 41145, 41168, 44975, 4549],
     semivalue=np.arange(.1, 1, .1).round(1).tolist() + \
         [(16, 1), (4, 1), (1, 1), (1, 4), (1, 16), (16, 4), (2, 2), (8, 8), (4, 16)],
     random_seed_estimator=range(10),
@@ -27,25 +37,23 @@ arg_dict = dict(
             ),
         ),       
     )
+    
+
+def skip_arg(arg):
+    if arg['paired_sampling']:
+        if arg['dataset_id'] not in [44, 1475, 41145, 41150]:
+            return 1
+        if arg['estimator'] != 'kernelSHAP_MV':
+            return 1
+    else:
+        return 0
         
     
 if __name__ == '__main__':
-    import os
-    # If there are n cpus, without the following specification, each process would
-    # create n threads. So, given n_processes = n, there would be nxn threads in total,
-    # which could hurt performance. Make sure n_processes x n_threads <= n_cpus.
-    # it should be done before importing any other modules.
-    NUM_THREAD = 1
-    os.environ["OMP_NUM_THREADS"] = f"{NUM_THREAD}"
-    os.environ["OPENBLAS_NUM_THREADS"] = f"{NUM_THREAD}"
-    os.environ["MKL_NUM_THREADS"] = f"{NUM_THREAD}"
-    os.environ["VECLIB_MAXIMUM_THREADS"] = f"{NUM_THREAD}"
-    os.environ["NUMEXPR_NUM_THREADS"] = f"{NUM_THREAD}"
- 
     from args import process_arg_dict
     import argparse
     from utilFuncs import treeUtility
-    from createTreeModel import createTreeModel
+    from createTreeModel import createTreeModel, _classification_ids
     from estimators import estimators
     
     keys_pop = ['path_estimate', 'path_groundtruth', 'dataset_id', 'n_estimators', 
@@ -60,6 +68,9 @@ if __name__ == '__main__':
     n_total = len(args)
     
     for i, arg in enumerate(args):
+        if skip_arg(arg):
+            continue
+        
         # create the utility function
         if not os.path.exists(arg['path_groundtruth']) or not os.path.exists(arg['path_estimate']):
             print(f'{i+1} / {n_total}')
