@@ -8,8 +8,6 @@ import os
 
 _data_home = 'data'
 _model_home = 'treeModels'
-# sorted descending order of their average query costs. 
-_dataset_ids = [4538, 44, 43174, 1475, 41150, 41145, 41168, 44975, 4549]
 _id2depth = {
     41168 : 40,
     41150 : 20,
@@ -19,8 +17,12 @@ _id2depth = {
     4538 : 10,
     43174 : 10,
     44975 : 30,
-    4549 : 20}
-_classification_ids = [41168, 41150, 41145, 44, 1475, 4538]
+    4549 : 20,
+    40996 : 30,
+    40926 : 20,
+    1478 : 20,
+    }
+_classification_ids = [41168, 41150, 41145, 44, 1475, 4538, 40996, 40926, 1478]
 _datasets_using_scaler = [44975, 4549]
 
 
@@ -87,7 +89,7 @@ def data_from_openml(dataset_id, random_seed, test_size=0.2):
 
 
 if __name__ == '__main__':      
-    for dataset_id in _dataset_ids:
+    for dataset_id in _id2depth:
         print(dataset_id)
         model, X_test, y_test = createTreeModel(dataset_id, 10, 2026)    
         print(model.score(X_test, y_test))

@@ -14,13 +14,13 @@ import numpy as np
 arg_dict = dict(
     # fixed
     root='exp',
-    n_queries_per_player=1000,
     n_queries_per_iteration=100,
-    n_queries_per_player_per_checkpoint=10,
     random_seed_anythingelse=2026,
     n_estimators=10,
     # varied
-    dataset_id=[4538, 44, 43174, 1475, 41150, 41145, 41168, 44975, 4549],
+    n_queries_per_player=[20, 100, 1000],
+    n_queries_per_player_per_checkpoint=[2, 10],
+    dataset_id=[4538, 44, 43174, 1475, 41150, 41145, 41168, 44975, 4549, 1478, 40996, 40926],
     semivalue=np.arange(.1, 1, .1).round(1).tolist() + \
         [(16, 1), (4, 1), (1, 1), (1, 4), (1, 16), (16, 4), (2, 2), (8, 8), (4, 16)],
     random_seed_estimator=range(10),
@@ -45,8 +45,27 @@ def skip_arg(arg):
             return 1
         if arg['estimator'] != 'kernelSHAP_MV':
             return 1
+    
+    if arg['dataset_id'] == 40996:
+        if arg['n_queries_per_player'] != 100:
+            return 1
+        if arg['n_queries_per_player_per_checkpoint'] != 2:
+            return 1
+    elif arg['dataset_id'] == 40926:
+        if arg['n_queries_per_player'] != 20:
+            return 1
+        if arg['n_queries_per_player_per_checkpoint'] != 2:
+            return 1
+    elif arg['dataset_id'] == 1478:
+        if arg['n_queries_per_player'] != 100:
+            return 1
+        if arg['n_queries_per_player_per_checkpoint'] != 2:
+            return 1
     else:
-        return 0
+        if arg['n_queries_per_player'] != 1000:
+            return 1
+        if arg['n_queries_per_player_per_checkpoint'] != 10:
+            return 1
         
     
 if __name__ == '__main__':
