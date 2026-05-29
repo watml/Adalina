@@ -7,6 +7,7 @@ from collections import defaultdict
 
 path_structure = [
     'dataset_id',
+    'n_estimators',
     'semivalue',
     'random_seed_estimator',
     'estimator  aux  scalar_vr  sampling  unbiased  paired_sampling',
@@ -104,7 +105,7 @@ def add_path(arg_comb):
         arg['path_estimate'] = path + '.npz'
         
         path_components = arg['path_estimate'].split(os.sep)
-        path_groundtruth = os.sep.join(path_components[:3])
+        path_groundtruth = os.sep.join(path_components[:4])
         arg['path_groundtruth'] = os.path.join(path_groundtruth, 'groundtruth.npz')
         
         

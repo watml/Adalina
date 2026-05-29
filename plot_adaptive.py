@@ -4,49 +4,46 @@ import seaborn as sns
 import numpy as np
 
 
-estimators = {
-    'Adalina' : 'Adalina (ours)',
-    'Adalina_All' : 'Adalina-All (ours)', 
-    'MSR_Wang' : 'MSR-Wang',
-    'MSR_Witter' : 'MSR-Witter',
-    'SHAP_IQ' : 'SHAP-IQ',
-    'kernelSHAP_MV' : 'kernelSHAP',
-    'linearAME' : 'AME',
-    'ARM' : 'ARM',
-    'GELS' : 'GELS',
-    'GELS_Shapley' : 'GELS-Shapley'
-    }
-
 path_fig = os.path.join(
-    'figs_comparison',
-    'dataset_id={}-{}-comparison.pdf'
+    'figs_adaptive',
+    'dataset_id={}-{}-adaptive.pdf'
     )
-
-est_shapley = ['GELS_Shapley', 'kernelSHAP_MV']
-
-
-p = sns.color_palette("tab10")
-q = sns.color_palette('Set2')
-palette = [p[3], p[0], p[4], p[-1]] + q[:5] + [q[-2]]
 
 weighted_banzhaf =  np.arange(.1, 1, .1).round(1).tolist()
 beta_shapley = [(16, 1), (4, 1), (1, 1), (1, 4), (1, 16), (16, 4), (2, 2), (8, 8), (4, 16)]
 
 
 def skip_arg(arg):
-    if arg['estimator'] not in estimators:
+    if arg['n_queries_per_player'] != 1000:
         return 1
+    
+    if arg['n_queries_per_player_per_checkpoint'] != 10:
+        return 1
+    
+    if arg['n_estimators'] == 0:
+        return 1
+    
+    if arg['estimator'] not in ['linearAppr', 'Adalina', 'SHAP_IQ']:
+        return 1   
+    
     if arg['paired_sampling']:
         return 1
-    if arg['estimator'] == 'kernelSHAP_MV':
-        if arg['scalar_vr'] != 'diff' or arg['sampling'] != 'geomean':
-            return 1
-    if arg['n_estimators'] != 10:
+    
+    if arg['dataset_id'] not in [44, 1475, 41145, 41150]:
         return 1
+
     return 0
 
+def plot_curves(results, dataset_id):
+    est2key = {
+        'linearAppr-empty' : r'$\gamma=u_{\emptyset}$',
+        'linearAppr-default' : r'$\gamma=\frac{u_{[n]}+u_{\emptyset}}{2}$',
+        'Adalina' : 'adaptive',
+        'SHAP_IQ' : 'SHAP-IQ'
+        }
+    ests = ['linearAppr-empty', 'linearAppr-default', 'Adalina', 'SHAP_IQ']
 
-def plot_curves(results, dataset_id):   
+    
     for j in [0, 1]:  
         if j:
             path = path_fig.format(dataset_id, 'banzhaf')
@@ -57,40 +54,22 @@ def plot_curves(results, dataset_id):
         os.makedirs(os.sep.join(path_components[:-1]), exist_ok=True)
         
         fig, ax = plt.subplots(figsize=(32, 24))
+        palette = sns.color_palette("tab10")
+        palette = [palette[1], palette[3], palette[0], palette[2]]
         
         curves_all = []
-        for est in estimators.keys():
+        for est in ests:
             curves_all.append(results[est][j])
         
         
-        for i, (est, curves) in enumerate(zip(estimators.keys(), curves_all)):
-            key = estimators[est]
+        for i, (key, curves) in enumerate(zip(ests, curves_all)):
+            key = est2key[key]
+                     
+            curve_mean = curves.mean(axis=1)
+            curve_std = curves.std(axis=1)
             
-            if est == 'MSR_Wang' and j == 0:
-                continue
-            if est in est_shapley and j == 1:
-                continue
-            
-            if est in est_shapley:
-                pos = beta_shapley.index((1, 1))
-                curve = curves[pos]
-                plt.errorbar(pos, curve.mean(), yerr=curve.std(), fmt='o', markersize=30, color=palette[i],
-                             ecolor=palette[i], capsize=18, elinewidth=5, capthick=5)
-
-            else:                   
-                curve_mean = curves.mean(axis=1)
-                curve_std = curves.std(axis=1)
-                if dataset_id in [41145, 1478] and est == 'linearAME' and j == 0:
-                    # exclude one significant outlier
-                    if dataset_id == 41145:
-                        r = np.delete(curves[1], 5)
-                    else:
-                        r = np.delete(curves[1], 4)
-                    curve_mean[1] = r.mean()
-                    curve_std[1] = r.std()
-                    
-                ax.semilogy(np.arange(9), curve_mean, linewidth=10, label=key, c=palette[i])
-                ax.fill_between(np.arange(9), curve_mean - curve_std, curve_mean + curve_std, alpha=0.2, color=palette[i])
+            ax.semilogy(np.arange(9), curve_mean, linewidth=10, label=key, c=palette[i])
+            ax.fill_between(np.arange(9), curve_mean - curve_std, curve_mean + curve_std, alpha=0.2, color=palette[i])
             
         ax.tick_params(axis='x', labelsize=80)
         ax.tick_params(axis='y', labelsize=80)
@@ -106,28 +85,18 @@ def plot_curves(results, dataset_id):
                 xticklabels[i].set_rotation(-90)
 
         
+        plt.legend(fontsize=100)
         plt.ylabel(r'$\|\hat{\phi}-\phi\|_{2} / \|\phi\|_{2}$', fontsize=100)
         plt.savefig(path, bbox_inches='tight')
         plt.close(fig)
         
     
-def export_legend(legend, fig_saved):
-    fig  = legend.figure
-    fig.canvas.draw()
-    bbox  = legend.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
-    fig.savefig(fig_saved, dpi="figure", bbox_inches=bbox)
 
 
 if __name__ == '__main__':
     from main import arg_dict
     from args import process_arg_dict
     from collections import defaultdict
-    
-    for i, est in enumerate(estimators.keys()):
-        plt.plot([], [], label=estimators[est], color=palette[i], linewidth=30)       
-    legend = plt.legend(ncol=5, fontsize=100, loc="upper left", bbox_to_anchor=(1, 1))
-    export_legend(legend, 'legend.pdf')
-    
     
     args = process_arg_dict(arg_dict)
     
@@ -137,10 +106,13 @@ if __name__ == '__main__':
             continue
         args_per_id[arg['dataset_id']].append(arg)
         
+        
     for dataset_id, args_2nd in args_per_id.items():
-        results = defaultdict(lambda : np.zeros((2, 9, 10), dtype=np.float64))
+        results = defaultdict(lambda : np.empty((2, 9, 10), dtype=np.float64))
         for arg in args_2nd:
             est = arg['estimator']
+            if 'aux' in arg:
+                est += '-' + arg['aux']
                 
             data = np.load(arg['path_groundtruth'])
             groundtruth = data['groundtruth']          

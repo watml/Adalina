@@ -26,9 +26,9 @@ arg_dict = dict(
     n_queries_per_player_per_checkpoint=10,
     random_seed_anythingelse=2026,
     n_estimators=10,
+    semivalue=(1, 1),
     # varied
     dataset_id=[44, 1475, 41145, 41150],
-    semivalue=[(1, 1), 0.5],
     position= np.arange(-40, 41, 2),
     random_seed_estimator=np.arange(10),
     )

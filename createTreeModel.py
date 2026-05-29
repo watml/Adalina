@@ -61,6 +61,7 @@ def createTreeModel(dataset_id, n_estimators, random_seed):
                                   f'dataset_id={dataset_id}-depth={_id2depth[dataset_id]}.pkl')
         
     if not os.path.exists(model_path):
+        print(model_path)
         model.fit(X_train, y_train)
         with open(model_path, 'wb') as f:
             pickle.dump(model, f)
@@ -86,16 +87,3 @@ def data_from_openml(dataset_id, random_seed, test_size=0.2):
             y_test = scaler.transform(y_test[:, None])[:, 0]
                 
     return X_train, X_test, y_train, y_test
-
-
-if __name__ == '__main__':      
-    for dataset_id in _id2depth:
-        print(dataset_id)
-        model, X_test, y_test = createTreeModel(dataset_id, 10, 2026)    
-        print(model.score(X_test, y_test))
-        
-        
-    for dataset_id in [44, 1475, 41145, 41150]:
-        print(dataset_id)
-        model, X_test, y_test = createTreeModel(dataset_id, 0, 2026)    
-        print(model.score(X_test, y_test))
