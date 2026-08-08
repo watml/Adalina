@@ -26,7 +26,7 @@ arg_dict = dict(
     random_seed_estimator=range(10),
     paired_sampling=[0, 1],
     estimator=dict(
-        estimator=['MSR_Wang', 'MSR_Witter', 'ARM', 'linearAME', 'GELS', 
+        estimator=['MSR_Banzhaf', 'MSR_Prob', 'ARM', 'linearAME', 'GELS', 
                    'GELS_Shapley', 'SHAP_IQ', 'Adalina_All', 'Adalina'],
         linearAppr=dict(
             aux=['default', 'empty']

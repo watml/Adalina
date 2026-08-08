@@ -1,12 +1,12 @@
-from .MSR_Wang import MSR_Wang
+from .MSR_Banzhaf import MSR_Banzhaf
 from .estimatorTemplate import estimatorTemplate
 import numpy as np
 
 # https://arxiv.org/abs/2302.00736 contians its initial version for the Shapley value
 # https://openreview.net/forum?id=lvSMIsztka extends it in Appendix E
 
-# inherit MSR_Wang.calculate_estimate
-class ARM(MSR_Wang):
+# inherit MSR_Banzhaf.calculate_estimate
+class ARM(MSR_Banzhaf):
     def __init__(self, util, semivalue,
                  n_queries_per_player, n_queries_per_player_per_checkpoint, 
                  n_queries_per_iteration):

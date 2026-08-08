@@ -7,8 +7,8 @@ import numpy as np
 estimators = {
     'Adalina' : 'Adalina (ours)',
     'Adalina_All' : 'Adalina-All (ours)', 
-    'MSR_Wang' : 'MSR-Banzhaf',
-    'MSR_Witter' : 'MSR-Prob',
+    'MSR_Banzhaf' : 'MSR-Banzhaf',
+    'MSR_Prob' : 'MSR-Prob',
     'SHAP_IQ' : 'SHAP-IQ',
     'kernelSHAP_MV' : 'kernelSHAP',
     'linearAME' : 'AME',

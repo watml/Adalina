@@ -3,7 +3,7 @@ import numpy as np
 
 # Eq. (3) in https://arxiv.org/pdf/2506.11849
 
-class MSR_Witter(estimatorTemplate):
+class MSR_Prob(estimatorTemplate):
     def __init__(self, util, semivalue,
                  n_queries_per_player, n_queries_per_player_per_checkpoint, 
                  n_queries_per_iteration):

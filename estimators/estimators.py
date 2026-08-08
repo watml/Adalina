@@ -3,8 +3,8 @@ from tqdm import tqdm
 
 
 from .group_testing import group_testing
-from .MSR_Wang import MSR_Wang
-from .MSR_Witter import MSR_Witter
+from .MSR_Banzhaf import MSR_Banzhaf
+from .MSR_Prob import MSR_Prob
 from .kernelSHAP import kernelSHAP
 from .kernelSHAP_unbiased import kernelSHAP_unbiased
 from .kernelSHAP_MV import kernelSHAP_MV
@@ -22,8 +22,8 @@ from .Adalina_All import Adalina_All
 
 _estimators = dict(
     group_testing=group_testing,
-    MSR_Wang=MSR_Wang,
-    MSR_Witter=MSR_Witter,
+    MSR_Banzhaf=MSR_Banzhaf,
+    MSR_Prob=MSR_Prob,
     kernelSHAP=kernelSHAP, # only for testing equivalence
     kernelSHAP_unbiased=kernelSHAP_unbiased, # only for testing equivalence
     kernelSHAP_MV=kernelSHAP_MV,

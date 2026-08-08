@@ -3,7 +3,7 @@ import numpy as np
 
 # Eq. (4) in https://openreview.net/pdf?id=u359tNBpxF
 
-class MSR_Wang(estimatorTemplate):
+class MSR_Banzhaf(estimatorTemplate):
     def __init__(self, util, semivalue,
                  n_queries_per_player, n_queries_per_player_per_checkpoint, 
                  n_queries_per_iteration):
